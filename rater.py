@@ -4,7 +4,7 @@ from collections import defaultdict
 import random
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Required for using sessions
+app.secret_key = '5co1vLXMOXL4L15yEmmJMJYR9AbLLqy5'  # Required for using sessions
 
 # Initialize items and global variables
 items = ["Louis", "Ben", "Dan", "Alisha", "Zak", "Corin", "Cuish", "Morgan", "Perry", "Sadie", "Leah", "Amy", "Charlie", "Harry", "Sean", "Ruby", "Tanith", "Reece", "Eleanor", "Makoto", "Masami", "Meriel"]
