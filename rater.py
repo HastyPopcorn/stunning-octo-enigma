@@ -1,21 +1,25 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from itertools import combinations
 from collections import defaultdict
 import random
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Required for using sessions
 
+# Initialize items and global variables
 items = ["Louis", "Ben", "Dan", "Alisha", "Zak", "Corin", "Cuish", "Morgan", "Perry", "Sadie", "Leah", "Amy", "Charlie", "Harry", "Sean", "Ruby", "Tanith", "Reece", "Eleanor", "Makoto", "Masami", "Meriel"]
-
-
 scores = defaultdict(int)
 pairs = list(combinations(items, 2))
 random.shuffle(pairs)
-pair_index = 0
 
 @app.route('/')
 def index():
-    global pair_index
+    if 'pair_index' not in session:
+        session['pair_index'] = 0
+        session['user_scores'] = defaultdict(int)  # Initialize user scores if it's their first time
+    
+    pair_index = session['pair_index']
+    
     if pair_index < len(pairs):
         item1, item2 = pairs[pair_index]
         return render_template("vote.html", item1=item1, item2=item2)
@@ -24,21 +28,26 @@ def index():
 
 @app.route('/vote', methods=['POST'])
 def vote():
-    global pair_index
     choice = request.form.get("choice")
+    pair_index = session['pair_index']
     item1, item2 = pairs[pair_index]
-    if choice == item1:
-        scores[item1] += 1
-    else:
-        scores[item2] += 1
     
-    pair_index += 1
+    # Update scores for the user
+    if choice == item1:
+        session['user_scores'][item1] += 1
+    else:
+        session['user_scores'][item2] += 1
+
+    # Move to the next pair
+    session['pair_index'] += 1
+    
     return redirect(url_for("index"))
 
 @app.route('/results')
 def results():
-    sorted_items = sorted(items, key=lambda x: scores[x], reverse=True)
-    return render_template("results.html", results=sorted_items, scores=scores)
+    user_scores = session.get('user_scores', {})
+    sorted_items = sorted(items, key=lambda x: user_scores.get(x, 0), reverse=True)
+    return render_template("results.html", results=sorted_items, scores=user_scores)
 
 if __name__ == '__main__':
     app.run(debug=True)

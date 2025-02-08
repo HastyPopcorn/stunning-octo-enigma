@@ -1,5 +1,5 @@
-<form method="post" action="/vote">
-    <h2>Which do you prefer?</h2>
+<form method="post" action="{{ url_for('vote') }}">
+    <p>Which do you prefer?</p>
     <button type="submit" name="choice" value="{{ item1 }}">{{ item1 }}</button>
     <button type="submit" name="choice" value="{{ item2 }}">{{ item2 }}</button>
 </form>

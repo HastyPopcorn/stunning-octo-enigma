@@ -1,6 +1,6 @@
-<h2>Popularity Ranking</h2>
+<h2>Results</h2>
 <ul>
-    {% for item in results %}
-        <li>{{ item }} (Score: {{ scores[item] }})</li>
+    {% for rank, item in results|enumerate %}
+        <li>{{ rank + 1 }}. {{ item }} (Score: {{ scores[item] }})</li>
     {% endfor %}
 </ul>
