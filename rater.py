@@ -49,9 +49,10 @@ def vote():
 
 @app.route('/results')
 def results():
-    user_scores = session.get('user_scores', {})
-    sorted_items = sorted(items, key=lambda x: user_scores.get(x, 0), reverse=True)
-    return render_template("results.html", results=sorted_items, scores=user_scores)
+    sorted_items = sorted(items, key=lambda x: scores[x], reverse=True)
+    ranked_items = [(rank + 1, item, scores[item]) for rank, item in enumerate(sorted_items)]  # Add rank and score
+    return render_template("results.html", ranked_items=ranked_items)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

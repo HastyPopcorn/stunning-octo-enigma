@@ -1,6 +1,6 @@
-<h2>Results</h2>
+<h2>Likedness Ranking</h2>
 <ul>
-    {% for rank, item in results|enumerate %}
-        <li>{{ rank + 1 }}. {{ item }} (Score: {{ scores[item] }})</li>
+    {% for rank, item, score in ranked_items %}
+        <li>{{ rank }}. {{ item }} (Score: {{ score }})</li>
     {% endfor %}
 </ul>
