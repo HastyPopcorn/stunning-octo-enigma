@@ -32,7 +32,10 @@ def vote():
     pair_index = session['pair_index']
     item1, item2 = pairs[pair_index]
     
-    # Update scores for the user
+    # Ensure that both items exist in the user_scores dictionary before incrementing
+    session['user_scores'].setdefault(item1, 0)
+    session['user_scores'].setdefault(item2, 0)
+    
     if choice == item1:
         session['user_scores'][item1] += 1
     else:
@@ -42,6 +45,7 @@ def vote():
     session['pair_index'] += 1
     
     return redirect(url_for("index"))
+
 
 @app.route('/results')
 def results():
