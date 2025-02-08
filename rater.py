@@ -5,9 +5,9 @@ import random
 
 app = Flask(__name__)
 
-#items = ["Louis", "Ben", "Dan", "Alisha", "Zak", "Corin", "Cuish", "Morgan", "Perry", "Sadie", "Leah", "Amy", "Charlie", "Harry", "Sean", "Ruby", "Tanith", "Reece", "Eleanor", "Makoto", "Masami", "Meriel"]
+items = ["Louis", "Ben", "Dan", "Alisha", "Zak", "Corin", "Cuish", "Morgan", "Perry", "Sadie", "Leah", "Amy", "Charlie", "Harry", "Sean", "Ruby", "Tanith", "Reece", "Eleanor", "Makoto", "Masami", "Meriel"]
 
-items = ["Louis", "Ben", "Dan"]
+
 scores = defaultdict(int)
 pairs = list(combinations(items, 2))
 random.shuffle(pairs)
