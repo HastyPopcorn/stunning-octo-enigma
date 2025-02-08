@@ -1,0 +1,6 @@
+<h2>Popularity Ranking</h2>
+<ul>
+    {% for item in results %}
+        <li>{{ item }} (Score: {{ scores[item] }})</li>
+    {% endfor %}
+</ul>
