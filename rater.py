@@ -15,17 +15,13 @@ random.shuffle(pairs)
 
 @app.route('/')
 def index():
-    if 'pair_index' not in session:
-        session['pair_index'] = 0
-        session['user_scores'] = defaultdict(int)  # Initialize user scores if it's their first time
-    
-    pair_index = session['pair_index']
-    
-    if pair_index < len(pairs):
+    global pair_index
+    if pair_index < len(pairs):  # Only show the voting page if there are pairs left
         item1, item2 = pairs[pair_index]
         return render_template("vote.html", item1=item1, item2=item2)
     else:
         return redirect(url_for("results"))
+
 
 @app.route('/vote', methods=['POST'])
 def vote():
@@ -50,9 +46,11 @@ def vote():
 
 @app.route('/results')
 def results():
+    global pair_index
+    pair_index = 0  # Reset the index when results are shown
     sorted_items = sorted(items, key=lambda x: scores[x], reverse=True)
-    ranked_items = [(rank + 1, item, scores[item]) for rank, item in enumerate(sorted_items)]  # Add rank and score
-    return render_template("results.html", ranked_items=ranked_items)
+    return render_template("results.html", results=sorted_items, scores=scores)
+
 
 
 if __name__ == '__main__':
